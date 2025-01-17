@@ -49,7 +49,7 @@
                 <p> {{item.word_english}}</p>
             </div>
             <input type="text" v-model.lazy="correctWord">
-            <button @click="checkCorrectWord()">Перевірити</button>
+            <button @click="checkCorrectWord">Перевірити</button>
         </div>
         <div v-if="isCorrectWord === true">
             <h2> Добре. Молодець!</h2>
