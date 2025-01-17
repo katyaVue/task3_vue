@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task1</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<style>
+    .picture {
+        width: 250px;
+        height: 250px;
+    }
+
+    .picture img {
+        max-width: 100%;
+    }
+    .thinks__content p {
+        text-align: center;
+        font-size: 24px;
+        line-height: 30px;
+    }
+    .thinks__content{
+        max-width: 250px;
+        margin-bottom: 20px;
+        border: 3px solid transparent;
+    }
+    .correct {
+        border: 3px solid green;
+    }
+
+    .not-correct {
+        border: 3px solid red;
+    }
+</style>
+<body>
+<!--Задача 3. Елемент тренажера англійської. Виводимо зображення елемента і слово. Користувач вводить відповідь. Якщо вірно-->
+<!--– відтворюємо фразу «Добре. Молодець!» (і додаємо зелену рамку до елемента), якщо ні - то відтворюємо фразу «Невірно,-->
+<!--спробуйте ще раз» (і додаємо червону рамку).-->
+
+<div id="app">
+    <div class="thinks">
+        <h2>Перекладіть зображення</h2>
+        <div v-for="item in [getRandomItem]" :key="item.id" class="thinks__wrapper">
+            <div class="thinks__content" :class="statusColor">
+                <div class="picture">
+                    <img :src="item.picture" alt="">
+                </div>
+                <p> {{item.word_english}}</p>
+            </div>
+            <input type="text" v-model.lazy="correctWord">
+            <button @click="checkCorrectWord()">Перевірити</button>
+        </div>
+        <div v-if="isCorrectWord === true">
+            <h2> Добре. Молодець!</h2>
+        </div>
+        <div v-else-if="isCorrectWord === false">
+            <h2>Невірно, спробуйте ще раз.</h2>
+        </div>
+    </div>
+
+
+</div>
+<script>
+    const {createApp} = Vue
+    createApp({
+        data() {
+            return {
+                checkClassPlane: null,
+                checkThinksBusiness: null,
+                items: [
+                    {
+                        id: 1,
+                        picture: 'https://kharkivmebel.com/upload/resize_cache/iblock/ab4/3000_3000_140cd750bba9870f18aada2478b24840a/3wmqixx1p8u3v6n05wj8gytipejsko3d.webp',
+                        word_english: 'table',
+                        work_translate: 'стіл'
+                    },
+                    {
+                        id: 2,
+                        picture: 'https://kimnatka.com/image/cache/catalog/Manufacture/GoodWood/Stilci/Isku-noviy/Iskunovij-5-1280x960.jpg',
+                        word_english: 'chair',
+                        work_translate: 'стілець'
+                    },
+                    {
+                        id: 3,
+                        picture: 'https://220-v.com.ua/wp-content/uploads/2023/07/34618_1.jpg',
+                        word_english: 'lamp',
+                        work_translate: 'лампа'
+                    },
+                    {
+                        id: 4,
+                        picture: 'https://komfort-mebli.com.ua/image/cache/catalog/image/image_menu/tovaru/mebli%20styl/belsher/Dyvan-BELShER-Mebli-Styl-2048x1365.jpg',
+                        word_english: 'sofa',
+                        work_translate: 'диван'
+                    },
+                    {
+                        id: 5,
+                        picture: 'https://matras.kiev.ua/image/cache/catalog/products/NEW%20PHOTO/1220/krovat-siti-city-2-1050x700.jpg',
+                        word_english: 'bed',
+                        work_translate: 'ліжко'
+                    }
+                ],
+                randomItem: null,
+                correctWord: null,
+                isCorrectWord: null
+            }
+        },
+        methods: {
+            checkCorrectWord() {
+                if (this.correctWord.trim().toLowerCase() === this.getRandomItem.work_translate.toLowerCase()) {
+                    this.isCorrectWord = true;
+                } else {
+                    this.isCorrectWord = false;
+                }
+            }
+        },
+        computed: {
+            isWordEnter() {
+                return this.correctWord
+            },
+            getRandomItem() {
+                const randomIndex = Math.floor(Math.random() * this.items.length);
+                return this.items[randomIndex];
+            },
+            statusColor() {
+                if (this.isCorrectWord === null) return '';
+                return this.isCorrectWord ? 'correct' : 'not-correct';
+            },
+        }
+    }).mount('#app')
+</script>
+</body>
+</html>
